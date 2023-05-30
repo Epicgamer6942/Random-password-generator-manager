@@ -1,4 +1,5 @@
 import pickle
+import pprint
 def addpass(pwd,domain,acc = "None"):
     domain = "http(s)://" + domain
     if acc == "None":
@@ -23,7 +24,7 @@ def displaypass(assignment = "Unassigned"):
         try:
             while True:
                 rec=pickle.load(f1)
-                print(rec)
+                pprint(rec)
         except EOFError:
             f1.close()
     else:
