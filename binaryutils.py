@@ -1,20 +1,20 @@
 import pickle
 def addpass(pwd,domain,acc = "None"):
     domain = "http(s)://" + domain
-    if acc != "None":
-        with open("Assigned.dat","ab") as f1:
-            sno = int(input("Enter sno:"))
-            master = [sno,{
-                acc:[pwd,domain]
-            }]
-    else:
+    if acc == "None":
         with open("Unassigned password.dat","ab") as f1:
             sno = int(input("Enter sno:"))
             master = [sno,{
                 acc:[pwd,domain]
             }]
             pickle.dump(master,f1)
-    
+    else:
+        with open("Assigned.dat","ab") as f2:
+            sno = int(input("Enter sno:"))
+            master = [sno,{
+                acc:[pwd,domain]
+            }]
+            pickle.dump(master,f2)
 
 
 def displaypass(assignment = "Unassigned"):
@@ -28,7 +28,7 @@ def displaypass(assignment = "Unassigned"):
             f1.close()
     else:
         try:
-            f1=open("Unassigned password.dat","rb")
+            f1=open("Assigned.dat","rb")
             while True:
                 rec=pickle.load(f1)
                 print(rec)
@@ -64,7 +64,9 @@ def removepass(args = "all",assignment = "Unassigned"):
                      while True:
                         a = pickle.load(f1)
                         l1.append(a)
+                        
             except EOFError:
+                l1.pop()
                 f1.close()
                 with open("Assigned.dat", "wb") as f2:
                     for i in l1:
