@@ -1,50 +1,36 @@
-import random
-import array
-import pickle
-import binaryutils
-def passgen(maxlen):
-	MAX_LEN = maxlen
-
-
-	DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-	LOCASE_CHARACTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-						'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q',
-						'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
-						'z']
-
-	UPCASE_CHARACTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-						'I', 'J', 'K', 'M', 'N', 'O', 'P', 'Q',
-						'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
-						'Z']
-
-	SYMBOLS = ['@', '#', '$', '%', '=', ':', '?', '.', '/', '|', '~', '>',
-			'*', '(', ')', '<']
-
-
-	COMBINED_LIST = DIGITS + UPCASE_CHARACTERS + LOCASE_CHARACTERS + SYMBOLS
-
-
-	rand_digit = random.choice(DIGITS)
-	rand_upper = random.choice(UPCASE_CHARACTERS)
-	rand_lower = random.choice(LOCASE_CHARACTERS)
-	rand_symbol = random.choice(SYMBOLS)
-
-
-	temp_pass = rand_digit + rand_upper + rand_lower + rand_symbol
-
-
-	for x in range(MAX_LEN - 4):
-		temp_pass = temp_pass + random.choice(COMBINED_LIST)
-
-		temp_pass_list = array.array('u', temp_pass)
-		random.shuffle(temp_pass_list)
-
-	password = ""
-	for x in temp_pass_list:
-		password = password + x
-	
-	return password
-
-
-
-
+import generator
+import binaryutils as bu
+while True:
+    print("Hello welcome to the program, Choose one of the following programs from the list")
+    print("1.Add a new password","\n2.Display existing lists of passwords","\n3.Delete a password",
+          "\n4.Quit the program")
+    x = int(input("Enter choice: "))
+    if x == 1:
+        maxlen = int(input("Enter length of password:"))
+        domain = input("Enter domain name:")
+        acc = input("Enter account name:")
+        pwd = generator.passgen(maxlen)
+        if acc != "None":
+            bu.addpass(pwd,domain,acc)
+        else:
+            bu.addpass(pwd,domain)
+    elif x == 2:
+        assign = input("Type assigned if passwords are stored")
+        if assign == "Unassigned":
+            bu.displaypass()
+        else:
+            bu.displaypass("Assigned")
+    elif x == 3:
+        args = input("Type \'all\' to delete all records:")
+        assignment = input("Type assigned if passwords are stored")
+        if assignment != "Unassigned":
+            bu.removepass(args,assignment)
+        else:
+            bu.removepass(args)
+    elif x == 4:
+        print("All unassigned passwords are listed below")
+        bu.displaypass()
+        print("All assigned passwords are listed below")
+        bu.displaypass("Assigned")
+        break
+    
